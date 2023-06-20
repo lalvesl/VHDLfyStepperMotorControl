@@ -1,10 +1,12 @@
 distFolder=dist
 wkd="--workdir=dist"
-mainEntity=main
+mainEntity=stepper_half_single_test
+flags="--ieee=synopsys"
+
 export ENTITY=$(mainEntity)
 
 runner:build
-	@ghdl -r $(wkd) $(ENTITY)
+	@ghdl -r $(wkd) $(ENTITY) $(flags)
 
 test:build
 	@for file in src/test/*;do \
@@ -13,10 +15,10 @@ test:build
 	done
 
 build:maker
-	@ghdl -e $(wkd) $(ENTITY)
+	@ghdl -e $(wkd) $(ENTITY) $(flags)
 
 maker:analize
-	@ghdl -m $(wkd) $(ENTITY)
+	@ghdl -m $(wkd) $(ENTITY) $(flags)
 
 analize:
 	@ghdl -i $(wkd) src/**/*.vhdl
@@ -25,4 +27,4 @@ clear:
 	@rm -rf $(distFolder) > /dev/null
 
 dev:
-	find src -type f | entr sh -c "echo "Restarting..." && make test"
+	find src -type f | entr sh -c "clear && echo \"Restarted...\" && make test"
