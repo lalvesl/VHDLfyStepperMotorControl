@@ -31,8 +31,9 @@ clear:
 dev:
 	find src -type f | entr zsh -c "echo \"Restarted...\"\
 	&& source ~/.zshrc\
+	&& pkill -9 \"quartus\"\
 	&& make test\
-	&& if [ \"\$$(make test | grep -c failed)\" -eq 0 ]; then echo \"Transferring program to FPGA...\" && make transferSynthesis;else echo \"Tests not passed!\";fi\
+	& if [ \"\$$(make test | grep -c failed)\" -eq 0 ]; then echo \"Transferring program to FPGA...\" & make transferSynthesis & true;else echo \"Tests not passed!\";fi\
 	"
 
 creteFolderTest:
