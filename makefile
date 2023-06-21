@@ -1,5 +1,6 @@
 distFolder=dist
-wkd="--workdir=dist"
+folderTest=dist_tests
+wkd="--workdir=$(folderTest)"
 mainEntity=stepper_half_single_test
 flags="--ieee=synopsys"
 
@@ -20,11 +21,14 @@ build:maker
 maker:analize
 	@ghdl -m $(flags) $(wkd) $(ENTITY) 
 
-analize:
+analize:creteFolderTest
 	@ghdl -i $(wkd) src/**/*.vhdl
 
 clear:
-	@rm -rf $(distFolder) > /dev/null
+	@rm -rf $(folderTest) > /dev/null
 
 dev:
 	find src -type f | entr sh -c "clear && echo \"Restarted...\" && make test"
+
+creteFolderTest:
+	mkdir -p $(folderTest)
