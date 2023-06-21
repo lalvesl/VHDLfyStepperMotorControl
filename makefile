@@ -6,7 +6,7 @@ flags="--ieee=synopsys"
 export ENTITY=$(mainEntity)
 
 runner:build
-	@ghdl -r $(wkd) $(ENTITY) $(flags)
+	@ghdl -r $(flags) $(wkd) $(ENTITY) 
 
 test:build
 	@for file in src/test/*;do \
@@ -15,10 +15,10 @@ test:build
 	done
 
 build:maker
-	@ghdl -e $(wkd) $(ENTITY) $(flags)
+	@ghdl -e  $(flags) $(wkd) $(ENTITY)
 
 maker:analize
-	@ghdl -m $(wkd) $(ENTITY) $(flags)
+	@ghdl -m $(flags) $(wkd) $(ENTITY) 
 
 analize:
 	@ghdl -i $(wkd) src/**/*.vhdl
