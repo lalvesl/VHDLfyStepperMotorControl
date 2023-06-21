@@ -17,17 +17,10 @@ ARCHITECTURE behavior OF stepper_half_single_test IS
     SIGNAL stateCount : STD_LOGIC_VECTOR(0 TO 3);
     SIGNAL switchsOut : STD_LOGIC_VECTOR(0 TO 3);
 BEGIN
-    uut : stepper_half_single PORT MAP(
-        state => stateCount,
-        switchs => switchsOut
-    );
-
     stim_proc : PROCESS
         VARIABLE counter : STD_LOGIC_VECTOR(0 TO 3);
-        CONSTANT ONE : STD_LOGIC_VECTOR(0 TO 3) := "0001";
     BEGIN
         l_parity : FOR i IN 0 TO 15 LOOP
-            counter := counter + ONE;
             REPORT "TESTETS";
         END LOOP l_parity;
         REPORT "full_adder_test finished";
