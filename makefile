@@ -25,16 +25,22 @@ makeTest:analize
 	@ghdl -m $(flags) $(wkd) $(ENTITY) 
 
 checkSyntax:analize
-	@for file in $$(find src | grep "vhdl" );do \
+	@for file in $$(find src -type f);do \
 		ghdl -a $(flags) $$file; \
 	done
 
 analize:creteFolderTest
-	@ghdl -i $(flags) $(wkd) $$(find src | grep "vhdl" )
+	@ghdl -i $(flags) $(wkd) $$(find src -type f)
 
 clear:
 	@rm -rf $(folderTest)
 	@rm -rf $$(find $(synthesisFolder) -maxdepth 1 -mindepth 1 -type d)
+
+devTest:
+	find src -type f | entr zsh -c "echo \"Restarted...\"\
+	&& source ~/.zshrc\
+	&& make test\
+	"
 
 dev:
 	find src -type f | entr zsh -c "echo \"Restarted...\"\
@@ -44,7 +50,6 @@ dev:
 	&& sleep 1\
 	& if [ \"\$$(make test |& grep -c \"\\.vhdl:[0-9]\\+:[0-9]\\+:[^@]\")\" -eq 0 ]; then echo \"Transferring program to FPGA...\" & make transferSynthesis & true;else echo \"Tests not passed!\";fi\
 	"
-	# && make transferSynthesis\
 
 creteFolderTest:
 	@mkdir -p $(folderTest)
