@@ -6,6 +6,9 @@ flags="--ieee=synopsys"
 
 export ENTITY=$(mainEntity)
 
+build:synthesis
+	echo "OK"
+
 runner:buildTest
 	@ghdl -r $(flags) $(wkd) $(ENTITY) 
 
@@ -21,8 +24,13 @@ buildTest:makeTest
 makeTest:analize
 	@ghdl -m $(flags) $(wkd) $(ENTITY) 
 
-analize:creteFolderTest
+analize:checkSyntax
 	@ghdl -i $(wkd) src/**/*.vhdl
+
+checkSyntax:creteFolderTest
+	@for file in src/*;do \
+		ghdl -a $(wkd) $$file; \
+	done
 
 clear:
 	@rm -rf $(folderTest)
@@ -33,7 +41,7 @@ dev:
 	&& source ~/.zshrc\
 	&& pkill -9 \"quartus\"\
 	&& make test\
-	& if [ \"\$$(make test | grep -c failed)\" -eq 0 ]; then echo \"Transferring program to FPGA...\" & make transferSynthesis & true;else echo \"Tests not passed!\";fi\
+	& if [ \"\$$(make test 2> >(grep \"\\.vhdl:[0-9]\\+:[0-9]\\+:\"))\" -eq 0 ]; then echo \"Transferring program to FPGA...\" & make transferSynthesis & true;else echo \"Tests not passed!\";fi\
 	"
 
 creteFolderTest:
