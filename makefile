@@ -29,10 +29,10 @@ analize:checkSyntax
 
 checkSyntax:creteFolderTest
 	@for file in src/*;do \
-		ghdl -a $(wkd) $$file; \
+		ghdl -a $(flags) $(wkd) $$file; \
 	done
 	@for file in src/test/*;do \
-		ghdl -a $(wkd) $$file; \
+		ghdl -a $(flags) $(wkd) $$file; \
 	done
 
 clear:
