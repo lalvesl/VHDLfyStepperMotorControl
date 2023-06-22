@@ -1,7 +1,7 @@
 synthesisFolder=quartusFiles
 folderTest=dist_tests
 wkd="--workdir=$(folderTest)"
-mainEntity=stepper_half_single_test
+mainEntity=main
 flags="--ieee=synopsys"
 
 export ENTITY=$(mainEntity)
@@ -24,16 +24,13 @@ buildTest:makeTest
 makeTest:analize
 	@ghdl -m $(flags) $(wkd) $(ENTITY) 
 
-analize:checkSyntax
-	@ghdl -i $(wkd) src/**/*.vhdl
+checkSyntax:analize
+	@for file in $$(find src | grep "vhdl" );do \
+		ghdl -a $(flags) $$file; \
+	done
 
-checkSyntax:creteFolderTest
-	@for file in src/*;do \
-		ghdl -a $(flags) $(wkd) $$file; \
-	done
-	@for file in src/test/*;do \
-		ghdl -a $(flags) $(wkd) $$file; \
-	done
+analize:creteFolderTest
+	@ghdl -i $(flags) $(wkd) $$(find src | grep "vhdl" )
 
 clear:
 	@rm -rf $(folderTest)
@@ -44,8 +41,10 @@ dev:
 	&& source ~/.zshrc\
 	&& pkill -9 \"quartus\"\
 	&& make test\
-	& if [ \"\$$(make test 2> >(grep \"\\.vhdl:[0-9]\\+:[0-9]\\+:\"))\" -eq 0 ]; then echo \"Transferring program to FPGA...\" & make transferSynthesis & true;else echo \"Tests not passed!\";fi\
+	&& sleep 1\
+	& if [ \"\$$(make test |& grep -c \"\\.vhdl:[0-9]\\+:[0-9]\\+:[^@]\")\" -eq 0 ]; then echo \"Transferring program to FPGA...\" & make transferSynthesis & true;else echo \"Tests not passed!\";fi\
 	"
+	# && make transferSynthesis\
 
 creteFolderTest:
 	@mkdir -p $(folderTest)

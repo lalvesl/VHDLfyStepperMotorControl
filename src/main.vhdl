@@ -4,7 +4,7 @@ USE IEEE.numeric_std.ALL;
 
 ENTITY main IS
     PORT (
-        refclk : IN STD_LOGIC;
+        clk_pin : IN STD_LOGIC;
         led : OUT STD_LOGIC;
         s : OUT STD_LOGIC_VECTOR(0 TO 3)
     );
@@ -18,7 +18,7 @@ BEGIN
     Rst <= '0';
 
     -- 0 to max_count counter
-    compteur : PROCESS (refclk, Rst)
+    compteur : PROCESS (clk_pin, Rst)
         VARIABLE count : unsigned (31 DOWNTO 0);
         VARIABLE subCount : unsigned (1 DOWNTO 0);
         VARIABLE state : STD_LOGIC_VECTOR(1 DOWNTO 0);
@@ -27,13 +27,14 @@ BEGIN
         IF Rst = '1' THEN
             count := to_unsigned(0, 32);
             led <= '1';
-        ELSIF rising_edge(refclk) THEN
+        ELSIF rising_edge(clk_pin) THEN
             IF count < max_count/2 THEN
                 count := count + 1;
                 led <= '1';
             ELSIF count < max_count THEN
                 led <= '0';
                 count := count + 1;
+                ELSE
                 subCount := subCount + 1;
                 state := subCount(1) & subCount(0);
                 IF ("00" = state) THEN
@@ -59,8 +60,6 @@ BEGIN
                 ELSE
                     s(3) <= '0';
                 END IF;
-
-            ELSE
                 led <= '1';
                 count := to_unsigned(0, 32);
             END IF;
