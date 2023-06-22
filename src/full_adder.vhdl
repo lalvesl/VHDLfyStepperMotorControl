@@ -1,17 +1,17 @@
-library ieee;
-use ieee.std_logic_1164.all;
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
 
-entity full_adder is
-    port (
-        a  : in  std_logic;
-        b  : in  std_logic;
-        ci : in  std_logic;
-        s  : out std_logic;
-        co : out std_logic);
-end;
+ENTITY full_adder IS
+    PORT (
+        a : IN STD_LOGIC;
+        b : IN STD_LOGIC;
+        ci : IN STD_LOGIC;
+        s : OUT STD_LOGIC;
+        co : OUT STD_LOGIC);
+END;
 
-architecture behavioral of full_adder is
-begin
-    s <= a xor b xor ci;
-    co <= (a and b) or ((a xor b) and ci);
-end;
+ARCHITECTURE behavioral OF full_adder IS
+BEGIN
+    s <= a XOR b XOR ci;
+    co <= (a AND b) OR ((a XOR b) AND ci);
+END;
