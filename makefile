@@ -31,6 +31,9 @@ checkSyntax:creteFolderTest
 	@for file in src/*;do \
 		ghdl -a $(wkd) $$file; \
 	done
+	@for file in src/test/*;do \
+		ghdl -a $(wkd) $$file; \
+	done
 
 clear:
 	@rm -rf $(folderTest)
