@@ -33,13 +33,13 @@ BEGIN
     pfrequencer_test : PROCESS
     BEGIN
         ASSERT clk_out = '0' REPORT "clk_out not started in LOW state";
-        FOR freq IN 1 TO 4 LOOP
+        FOR freq IN 0 TO 3 LOOP
             frequencyOut <= ((frequencyIn/500) * freq);
             WAIT FOR 10 ns;
             testCounter <= 0;
             clk_outOldState <= '0';
             WAIT FOR 10 ns;
-            -- REPORT "Testing for a generate a frequency=" & INTEGER'image(frequencyOut);
+            -- REPORT "Testing for a generate a frequency = " & INTEGER'image(frequencyOut);
             FOR i IN 0 TO (frequencyIn * repetitions) LOOP
                 clk_in <= NOT clk_in;
                 WAIT FOR 10 ns;
@@ -52,8 +52,8 @@ BEGIN
                 END IF;
             END LOOP;
             WAIT FOR 10 ns;
-            -- REPORT "Frequency gerated=" & INTEGER'image(testCounter/(repetitions/2));
-            ASSERT (((testCounter/(repetitions/2)) < ((frequencyOut * 102)/100)) AND (testCounter/(repetitions/2)) >= frequencyOut) REPORT "error on test frequency = " & INTEGER'image(frequencyOut);
+            -- REPORT "Frequency gerated = " & INTEGER'image(testCounter/(repetitions/2));
+            ASSERT (((testCounter/(repetitions/2)) <= ((frequencyOut * 102)/100)) AND (testCounter/(repetitions/2)) >= frequencyOut) REPORT "error on test frequency = " & INTEGER'image(frequencyOut);
             WAIT FOR 10 ns;
         END LOOP;
         REPORT "Test frequencer_test finished";

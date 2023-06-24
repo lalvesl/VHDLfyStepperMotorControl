@@ -24,7 +24,7 @@ ARCHITECTURE afrequencer OF frequencer IS
 BEGIN
     pfrequencer : PROCESS (clk_in, frequencyIn, frequencyOut)
     BEGIN
-        IF isUp(clk_in) THEN
+        IF (isUp(clk_in) AND frequencyOut /= 0) THEN
 
             -- Commented this code becase this greater preciosion isn't necessary
             -- IF ((frequencyIn MOD frequencyOut) /= 0) THEN
