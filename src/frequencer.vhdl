@@ -3,12 +3,13 @@ USE IEEE.STD_LOGIC_1164.ALL;
 USE IEEE.numeric_std.ALL;
 USE IEEE.STD_LOGIC_UNSIGNED.ALL;
 LIBRARY work;
-USE work.edge_funcs.ALL;
+USE work.Edge_funcs.ALL;
+USE work.std_configs.ALL;
+-- USE work.MyPackage.ALL;
 
 ENTITY frequencer IS
     PORT (
-        clk_in : IN BIT;
-        frequencyIn : IN NATURAL;
+        config : IN std_config;
         frequencyOut : IN NATURAL;
         clk_out : OUT BIT := '0'
     );
@@ -22,31 +23,31 @@ ARCHITECTURE afrequencer OF frequencer IS
     SIGNAL state : BIT := '0';
     SIGNAL clk_inOld : BIT;
 BEGIN
-    pfrequencer : PROCESS (clk_in, frequencyIn, frequencyOut)
+    pfrequencer : PROCESS (config.clk_in, config.frequencyStd, frequencyOut)
     BEGIN
-        IF (isUp(clk_in) AND frequencyOut /= 0) THEN
+        IF (isUp(config.clk_in) AND frequencyOut /= 0) THEN
 
             -- Commented this code becase this greater preciosion isn't necessary
-            -- IF ((frequencyIn MOD frequencyOut) /= 0) THEN
-            --     counter2PrecisionMax <= ((frequencyIn/((frequencyIn MOD frequencyOut)/2))/(frequencyIn/frequencyOut));
+            -- IF ((config.frequencyStd MOD frequencyOut) /= 0) THEN
+            --     counter2PrecisionMax <= ((config.frequencyStd/((config.frequencyStd MOD frequencyOut)/2))/(config.frequencyStd/frequencyOut));
             --     IF (counter2PrecisionMax < counter2Precision) THEN
-            --         counterMax <= (frequencyIn/frequencyOut) + ((frequencyIn/((frequencyIn MOD frequencyOut)/2)) - (counter2PrecisionMax * (frequencyIn/frequencyOut)));
+            --         counterMax <= (config.frequencyStd/frequencyOut) + ((config.frequencyStd/((config.frequencyStd MOD frequencyOut)/2)) - (counter2PrecisionMax * (config.frequencyStd/frequencyOut)));
             --         ELSE
-            --         counterMax <= (frequencyIn/frequencyOut);
+            --         counterMax <= (config.frequencyStd/frequencyOut);
             --     END IF;
             --     ELSE
-            --     counterMax <= (frequencyIn/frequencyOut);
+            --     counterMax <= (config.frequencyStd/frequencyOut);
             -- END IF;
 
             -- Replaced for olny this code
-            counterMax <= (frequencyIn/frequencyOut);
+            counterMax <= (config.frequencyStd/frequencyOut);
 
             IF counter < counterMax THEN
                 counter <= counter + 1;
-                ELSE
+            ELSE
                 IF (counter2PrecisionMax < counter2Precision) THEN
                     counter2Precision <= 1;
-                    ELSE
+                ELSE
                     counter2Precision <= counter2Precision + 1;
                 END IF;
                 counter <= 1;

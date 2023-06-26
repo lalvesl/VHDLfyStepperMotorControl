@@ -1,7 +1,8 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 LIBRARY work;
-USE work.edge_funcs.ALL;
+USE work.Edge_funcs.ALL;
+USE work.std_configs.ALL;
 
 ENTITY frequencer_test IS
 END;
@@ -9,23 +10,22 @@ END;
 ARCHITECTURE afrequencer_test OF frequencer_test IS
     COMPONENT frequencer IS
         PORT (
-            clk_in : IN BIT;
-            frequencyIn : IN NATURAL;
+            config : IN std_config;
             frequencyOut : IN NATURAL;
             clk_out : OUT BIT
         );
     END COMPONENT;
-    SIGNAL clk_in : BIT;
-    SIGNAL frequencyIn : NATURAL := 5e5;
+    SIGNAL config : std_config;
     SIGNAL frequencyOut : NATURAL := 300;
     SIGNAL clk_out : BIT := '0';
     SIGNAL clk_outOldState : BIT := '0';
     SIGNAL testCounter : NATURAL := 0;
     CONSTANT repetitions : NATURAL := 2;
+
 BEGIN
+    config.frequencyStd <= 5e5;
     frequencerMap : frequencer PORT MAP(
-        clk_in,
-        frequencyIn,
+        config,
         frequencyOut,
         clk_out
     );
@@ -34,14 +34,14 @@ BEGIN
     BEGIN
         ASSERT clk_out = '0' REPORT "clk_out not started in LOW state";
         FOR freq IN 0 TO 3 LOOP
-            frequencyOut <= ((frequencyIn/500) * freq);
+            frequencyOut <= ((config.frequencyStd/500) * freq);
             WAIT FOR 10 ns;
             testCounter <= 0;
             clk_outOldState <= '0';
             WAIT FOR 10 ns;
             -- REPORT "Testing for a generate a frequency = " & INTEGER'image(frequencyOut);
-            FOR i IN 0 TO (frequencyIn * repetitions) LOOP
-                clk_in <= NOT clk_in;
+            FOR i IN 0 TO (config.frequencyStd * repetitions) LOOP
+                config.clk_in <= NOT config.clk_in;
                 WAIT FOR 10 ns;
                 IF (clk_outOldState /= clk_out) THEN
                     WAIT FOR 10 ns;

@@ -1,6 +1,13 @@
-PACKAGE configuratons IS
-    TYPE configs IS RECORD
-        clk_pin : IN BIT;
-        SIGNAL frequencyIn : NATURAL := 5e5;
+-- PACKAGE std_configs IS
+--     TYPE std_config IS RECORD
+--         clk_in : BIT;
+--         frequencyStd : NATURAL;
+--     END RECORD;
+-- END PACKAGE CONFIGURATION;
+PACKAGE std_configs IS
+    -- Define the record type
+    TYPE std_config IS RECORD
+        clk_in : BIT;
+        frequencyStd : NATURAL;
     END RECORD;
-END PACKAGE;
+END PACKAGE std_configs;
