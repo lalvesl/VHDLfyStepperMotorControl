@@ -1,13 +1,13 @@
 LIBRARY ieee;
 USE IEEE.STD_LOGIC_1164.ALL;
-PACKAGE edge_funcs IS -- sample package declaration
+PACKAGE Edge_funcs IS -- sample package declaration
     FUNCTION isUp(SIGNAL arg : BIT) RETURN BOOLEAN;
     FUNCTION isDown(SIGNAL arg : BIT) RETURN BOOLEAN;
     FUNCTION unshift(l : STD_LOGIC_VECTOR; r : INTEGER) RETURN STD_LOGIC_VECTOR;
     FUNCTION shift (l : STD_LOGIC_VECTOR; r : INTEGER) RETURN STD_LOGIC_VECTOR;
-END PACKAGE edge_funcs;
+END PACKAGE Edge_funcs;
 
-PACKAGE BODY edge_funcs IS -- corresponding package body
+PACKAGE BODY Edge_funcs IS -- corresponding package body
     FUNCTION isUp(SIGNAL arg : BIT) RETURN BOOLEAN IS
     BEGIN
         RETURN (arg'EVENT AND (arg = '1'));
@@ -28,7 +28,7 @@ PACKAGE BODY edge_funcs IS -- corresponding package body
         IF r >= 0 THEN
             result(1 TO l'length - rm) := lv(rm + 1 TO l'length);
             result(l'length - rm + 1 TO l'length) := lv(1 TO rm);
-            ELSE
+        ELSE
             result := shift(l, -r);
         END IF;
         RETURN result;
@@ -44,9 +44,9 @@ PACKAGE BODY edge_funcs IS -- corresponding package body
         IF r >= 0 THEN
             result(rm + 1 TO l'length) := lv(1 TO l'length - rm);
             result(1 TO rm) := lv(l'length - rm + 1 TO l'length);
-            ELSE
+        ELSE
             result := unshift(l, -r);
         END IF;
         RETURN result;
     END FUNCTION;
-END PACKAGE BODY edge_funcs;
+END PACKAGE BODY Edge_funcs;
