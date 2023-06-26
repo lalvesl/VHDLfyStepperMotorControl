@@ -57,7 +57,7 @@ set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_
 set_global_assignment -name VHDL_FILE ../src/main.vhdl
 set_global_assignment -name VHDL_FILE ../src/frequencer.vhdl
 set_global_assignment -name VHDL_FILE ../src/functions.vhdl
-set_global_assignment -name VHDL_FILE ../src/configurations.vhdl
+set_global_assignment -name VHDL_FILE ../src/configuration.vhdl
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
