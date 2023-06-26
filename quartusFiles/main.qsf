@@ -57,6 +57,7 @@ set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_
 set_global_assignment -name VHDL_FILE ../src/main.vhdl
 set_global_assignment -name VHDL_FILE ../src/frequencer.vhdl
 set_global_assignment -name VHDL_FILE ../src/functions.vhdl
+set_global_assignment -name VHDL_FILE ../src/configurations.vhdl
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
@@ -65,4 +66,10 @@ set_location_assignment PIN_A8 -to s[0]
 set_location_assignment PIN_A9 -to s[1]
 set_location_assignment PIN_A10 -to s[2]
 set_location_assignment PIN_B10 -to s[3]
+set_location_assignment PIN_V10 -to s2[3]
+set_location_assignment PIN_V9 -to s2[2]
+set_location_assignment PIN_V8 -to s2[1]
+set_location_assignment PIN_V7 -to s2[0]
+set_location_assignment PIN_C10 -to switch1_pin
+set_location_assignment PIN_C11 -to switch2_pin
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
