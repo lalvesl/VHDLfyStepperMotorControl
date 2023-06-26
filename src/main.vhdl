@@ -15,33 +15,32 @@ END main;
 
 ARCHITECTURE amain OF main IS
 
-    COMPONENT frequencer IS
+    COMPONENT stepper IS
         PORT (
             config : IN std_config;
             frequencyOut : IN NATURAL;
-            clk_out : OUT BIT
+            enable : IN BIT;
+            switchs_out : OUT STD_LOGIC_VECTOR(0 TO 3)
         );
     END COMPONENT;
     SIGNAL config : std_config;
-    SIGNAL frequencyOut2 : NATURAL := 2000;
-    SIGNAL clk_out2 : BIT;
+    SIGNAL frequencyOut : NATURAL := 2000;
+    SIGNAL enable : BIT := '1';
+    SIGNAL switchs_out : STD_LOGIC_VECTOR(0 TO 3);
 
-    SIGNAL state : STD_LOGIC_VECTOR(3 DOWNTO 0) := "0111";
 BEGIN
     config.clk_in <= clk_pin;
     config.frequencyStd <= 50e6;
-    frequencerMap : frequencer PORT MAP(
+    stepperMap : stepper PORT MAP(
         config,
-        frequencyOut => frequencyOut2,
-        clk_out => clk_out2
+        frequencyOut,
+        enable,
+        switchs_out
     );
 
     pmain : PROCESS (clk_pin)
     BEGIN
-        IF isUp(clk_out2) THEN
-            state <= shift(state, 1);
-            s <= state;
-            s2 <= state;
-        END IF;
+        s <= switchs_out;
+        s2 <= switchs_out;
     END PROCESS;
 END;
