@@ -2,8 +2,8 @@ LIBRARY IEEE;
 USE IEEE.STD_LOGIC_1164.ALL;
 USE IEEE.numeric_std.ALL;
 LIBRARY work;
-USE work.edge_funcs.ALL;
--- use work.configurations.All;
+USE work.Edge_funcs.ALL;
+USE work.std_configs.ALL;
 
 ENTITY main IS
     PORT (
@@ -17,22 +17,21 @@ ARCHITECTURE amain OF main IS
 
     COMPONENT frequencer IS
         PORT (
-            clk_in : IN BIT;
-            frequencyIn : IN NATURAL;
+            config : IN std_config;
             frequencyOut : IN NATURAL;
             clk_out : OUT BIT
         );
     END COMPONENT;
-    SIGNAL frequencyIn : NATURAL := 50e6;
+    SIGNAL config : std_config;
     SIGNAL frequencyOut2 : NATURAL := 2000;
     SIGNAL clk_out2 : BIT;
 
     SIGNAL state : STD_LOGIC_VECTOR(3 DOWNTO 0) := "0111";
 BEGIN
-
+    config.clk_in <= clk_pin;
+    config.frequencyStd <= 50e6;
     frequencerMap : frequencer PORT MAP(
-        clk_in => clk_pin,
-        frequencyIn => frequencyIn,
+        config,
         frequencyOut => frequencyOut2,
         clk_out => clk_out2
     );

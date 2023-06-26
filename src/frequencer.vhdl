@@ -5,7 +5,6 @@ USE IEEE.STD_LOGIC_UNSIGNED.ALL;
 LIBRARY work;
 USE work.Edge_funcs.ALL;
 USE work.std_configs.ALL;
--- USE work.MyPackage.ALL;
 
 ENTITY frequencer IS
     PORT (
