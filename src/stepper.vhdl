@@ -10,6 +10,7 @@ ENTITY stepper IS
         config : IN std_config;
         frequencyOut : IN NATURAL;
         enable : IN BIT;
+        diraction : IN BIT;
         switchs_out : OUT STD_LOGIC_VECTOR(0 TO 3) := "0000"
     );
 END stepper;
@@ -24,20 +25,25 @@ ARCHITECTURE astepper OF stepper IS
         );
     END COMPONENT;
     SIGNAL clk_out : BIT;
-    SIGNAL clk_outOld: BIT;
+    SIGNAL frequency : NATURAL;
     SIGNAL state : STD_LOGIC_VECTOR(3 DOWNTO 0) := "0111";
 BEGIN
     frequencerMap : frequencer PORT MAP(
         config,
-        frequencyOut => frequencyOut,
+        frequencyOut => frequency,
         clk_out => clk_out
     );
 
     pstepper : PROCESS (config.clk_in, config.frequencyStd, frequencyOut)
     BEGIN
+        frequency <= frequencyOut * 8;
         IF (enable = '1') THEN
             IF isUp(clk_out) THEN
-                state <= shift(state, 1);
+                IF (diraction = '1') THEN
+                    state <= shift(state, 1);
+                ELSE
+                    state <= unshift(state, 1);
+                END IF;
             END IF;
             switchs_out <= state;
         ELSE

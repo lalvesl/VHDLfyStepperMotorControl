@@ -17,6 +17,7 @@ ARCHITECTURE astepper_test OF stepper_test IS
             config : IN std_config;
             frequencyOut : IN NATURAL;
             enable : IN BIT;
+            diraction : IN BIT;
             switchs_out : OUT STD_LOGIC_VECTOR(0 TO 3)
         );
     END COMPONENT;
@@ -24,6 +25,7 @@ ARCHITECTURE astepper_test OF stepper_test IS
     SIGNAL config : std_config;
     SIGNAL frequencyOut : NATURAL := 5e5;
     SIGNAL enable : BIT;
+    SIGNAL diraction : BIT;
     SIGNAL switchs_out : STD_LOGIC_VECTOR(0 TO 3) := "0000";
     SIGNAL switchs_outSpect : STD_LOGIC_VECTOR(0 TO 3) := "0111";
 BEGIN
@@ -32,6 +34,7 @@ BEGIN
         config,
         frequencyOut,
         enable,
+        diraction,
         switchs_out
     );
 
