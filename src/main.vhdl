@@ -11,7 +11,8 @@ ENTITY main IS
         switch1_pin : IN BIT;
         switch2_pin : IN BIT;
         switch3_pin : IN BIT;
-        seg : OUT STD_LOGIC_VECTOR(0 TO 57);
+        buttom : IN BIT;
+        seg : OUT STD_LOGIC_VECTOR(57 DOWNTO 0);
         s : OUT STD_LOGIC_VECTOR(0 TO 3) := "0000";
         s2 : OUT STD_LOGIC_VECTOR(0 TO 3) := "0000"
     );
@@ -55,12 +56,17 @@ ARCHITECTURE amain OF main IS
     CONSTANT numberMax : NATURAL := 100000;
     CONSTANT numberMin : NATURAL := 0;
     SIGNAL numberOut : NATURAL;
-BEGIN
-    -- config.clk_in <= clk_pin;
-    -- config.frequencyStd <= 50e6;
-    -- config.seg <=
-    -- SIGNAL frequencyStd <= 50e6;
 
+    COMPONENT displayer IS
+        PORT (
+            enable : IN BIT;
+            number : IN NATURAL;
+            seg : OUT STD_LOGIC_VECTOR(0 TO 57)
+        );
+    END COMPONENT;
+    SIGNAL displayerNumber : NATURAL;
+
+BEGIN
     configuratorMap : configurator PORT MAP(
         clk_in => clk_pin,
         frequencyStd => 50e6,
@@ -84,9 +90,20 @@ BEGIN
         numberOut => frequencyOut
     );
 
+    displayerMap : displayer PORT MAP(
+        enable => enable,
+        number => frequencyOut,
+        seg => seg
+    );
+
     pmain : PROCESS (clk_pin)
+        VARIABLE counter : NATURAL := 0;
     BEGIN
         s <= switchs_out;
         s2 <= switchs_out;
+        displayerNumber <= frequencyOut;
+        IF isUp(buttom) THEN
+            counter := counter + 1;
+        END IF;
     END PROCESS;
 END;

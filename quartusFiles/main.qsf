@@ -61,6 +61,7 @@ set_global_assignment -name VHDL_FILE ../src/configuration.vhdl
 set_global_assignment -name VHDL_FILE ../src/stepper.vhdl
 set_global_assignment -name VHDL_FILE ../src/numberIncDec.vhdl
 set_global_assignment -name VHDL_FILE ../src/configurator.vhdl
+set_global_assignment -name VHDL_FILE ../src/diplayer.vhdl
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
@@ -73,6 +74,7 @@ set_location_assignment PIN_V10 -to s2[3]
 set_location_assignment PIN_V9 -to s2[2]
 set_location_assignment PIN_V8 -to s2[1]
 set_location_assignment PIN_V7 -to s2[0]
+set_location_assignment PIN_B8 -to buttom
 set_location_assignment PIN_C10 -to switch1_pin
 set_location_assignment PIN_C11 -to switch2_pin
 set_location_assignment PIN_D12 -to switch3_pin
