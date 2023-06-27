@@ -11,12 +11,22 @@ ENTITY main IS
         switch1_pin : IN BIT;
         switch2_pin : IN BIT;
         switch3_pin : IN BIT;
+        seg : OUT STD_LOGIC_VECTOR(0 TO 57);
         s : OUT STD_LOGIC_VECTOR(0 TO 3) := "0000";
         s2 : OUT STD_LOGIC_VECTOR(0 TO 3) := "0000"
     );
 END main;
 
 ARCHITECTURE amain OF main IS
+
+    COMPONENT configurator IS
+        PORT (
+            clk_in : IN BIT;
+            frequencyStd : IN NATURAL;
+            config : OUT std_config
+        );
+    END COMPONENT;
+    SIGNAL config : std_config;
 
     COMPONENT stepper IS
         PORT (
@@ -27,7 +37,6 @@ ARCHITECTURE amain OF main IS
             switchs_out : OUT STD_LOGIC_VECTOR(0 TO 3)
         );
     END COMPONENT;
-    SIGNAL config : std_config;
     SIGNAL frequencyOut : NATURAL := 2000;
     SIGNAL enable : BIT := '1';
     SIGNAL switchs_out : STD_LOGIC_VECTOR(0 TO 3);
@@ -47,8 +56,16 @@ ARCHITECTURE amain OF main IS
     CONSTANT numberMin : NATURAL := 0;
     SIGNAL numberOut : NATURAL;
 BEGIN
-    config.clk_in <= clk_pin;
-    config.frequencyStd <= 50e6;
+    -- config.clk_in <= clk_pin;
+    -- config.frequencyStd <= 50e6;
+    -- config.seg <=
+    -- SIGNAL frequencyStd <= 50e6;
+
+    configuratorMap : configurator PORT MAP(
+        clk_in => clk_pin,
+        frequencyStd => 50e6,
+        config => config
+    );
 
     stepperMap : stepper PORT MAP(
         config => config,
