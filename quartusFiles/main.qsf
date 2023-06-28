@@ -75,9 +75,11 @@ set_location_assignment PIN_V9 -to s2[2]
 set_location_assignment PIN_V8 -to s2[1]
 set_location_assignment PIN_V7 -to s2[0]
 set_location_assignment PIN_B8 -to buttom
+set_location_assignment PIN_A7 -to buttom2
 set_location_assignment PIN_C10 -to switch1_pin
 set_location_assignment PIN_C11 -to switch2_pin
 set_location_assignment PIN_D12 -to switch3_pin
+set_location_assignment PIN_C12 -to switch4_pin
 set_location_assignment PIN_C14 -to seg[00]
 set_location_assignment PIN_E15 -to seg[01]
 set_location_assignment PIN_C15 -to seg[02]
